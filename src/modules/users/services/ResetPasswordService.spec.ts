@@ -44,7 +44,7 @@ describe('ResetPassword', () => {
   });
 
   it("Shouldn't able to reset the password with non-existing token", async () => {
-    expect(
+    await expect(
       resetPassword.execute({
         token: 'missing-token',
         password: 'ok',
@@ -55,7 +55,7 @@ describe('ResetPassword', () => {
   it("Shouldn't able to reset the password with non-existing user", async () => {
     const { token } = await fakeUserTokensRepository.generate('missing-user');
 
-    expect(
+    await expect(
       resetPassword.execute({
         token,
         password: 'ok',

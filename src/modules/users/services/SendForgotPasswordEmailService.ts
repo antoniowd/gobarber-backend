@@ -1,4 +1,5 @@
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
+import path from 'path';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import IUsersRepository from '../repositories/IUsersRepository';
@@ -28,9 +29,22 @@ class SendForgotPasswordEmailService {
       throw new AppError("User doesn't exists.");
     }
 
-    await this.userTokensRepository.generate(user.id);
+    const { token } = await this.userTokensRepository.generate(user.id);
 
-    this.mailProvider.sendMail(email, 'Password retrieve request received');
+    await this.mailProvider.sendMail({
+      to: {
+        name: user.name,
+        email: user.email,
+      },
+      subject: '[GoBarber] Password retrieve',
+      templateData: {
+        file: path.resolve(__dirname, '..', 'views', 'forgot-password.hbs'),
+        variables: {
+          name: user.name,
+          link: `http://localhost:3000/reset-password?token=${token}`,
+        },
+      },
+    });
   }
 }
 
