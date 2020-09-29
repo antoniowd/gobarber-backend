@@ -32,7 +32,7 @@ describe('UpdateUserAvatar', () => {
     expect(user.avatar).toBe('file.png');
   });
 
-  it("Shouldn't be able to upload an avatar without an unknown user", async () => {
+  it("Shouldn't be able to upload an avatar with an unknown user", async () => {
     await expect(
       updateUserAvatar.execute({
         user_id: 'non-users',
