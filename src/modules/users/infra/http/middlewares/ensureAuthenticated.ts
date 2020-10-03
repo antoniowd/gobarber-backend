@@ -2,10 +2,10 @@ import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
 import AppError from '@shared/errors/AppError';
 
-interface TokenPayload {
+interface ITokenPayload {
   iat: number;
-  exp: number;
-  sub: string;
+  expiresIn: number;
+  subject: string;
 }
 
 export default function ensureAuthenticated(
@@ -24,10 +24,10 @@ export default function ensureAuthenticated(
   try {
     const decodedToken = verify(token, '123456');
 
-    const { sub } = decodedToken as TokenPayload;
+    const { subject } = decodedToken as ITokenPayload;
 
     request.user = {
-      id: sub,
+      id: subject,
     };
 
     return next();
