@@ -43,7 +43,7 @@ class AuthenticateUserService {
         subject: user.id,
         expiresIn: '30d',
       },
-      '123456',
+      process.env.APP_SECRET || '',
     );
 
     return {

@@ -9,3 +9,6 @@ ubuntu-bionic-18.04-cloudimg-console.log
 
 tmp/*
 !tmp/.gitkeep
+
+.env
+ormconfig.json
